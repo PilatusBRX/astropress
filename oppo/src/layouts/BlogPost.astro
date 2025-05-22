@@ -1,0 +1,25 @@
+---
+import BaseHead from "@/components/BaseHead.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+
+const { title, description } = Astro.props;
+---
+
+<html lang="pt-BR">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+  <body>
+    <Header />
+    <main id="main-content" transition:animate="fade">
+      <div class="container">
+        <Breadcrumb currentPath={Astro.url.pathname} />
+        <slot />
+      </div>
+    </main>
+    <Footer />
+  </body>
+</html>
+<style></style>

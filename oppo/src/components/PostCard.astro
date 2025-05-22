@@ -1,0 +1,111 @@
+---
+import { Icon } from "astro-icon/components"; 
+const { projeto } = Astro.props;
+
+// Obter URL da logo
+const logoUrl =
+  projeto?.acf?.logo_do_cliente?.sizes?.medium ||
+  projeto?.acf?.logo_do_cliente?.url ||
+  null;
+
+// Alt text para acessibilidade
+const altText =
+  projeto?.acf?.logo_do_cliente?.alt ||
+  projeto?.title?.rendered ||
+  "Logo do cliente";
+
+
+const clienteNome = projeto?.acf?.nome_do_cliente;
+const dataEntrega = projeto?.acf?.data_de_entrega;
+---
+
+<article class="post-card group relative bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2">
+
+  <div class="absolute inset-0 bg-gradient-to-br from-blue-600/0 via-purple-600/0 to-pink-600/0 group-hover:from-blue-600/5 group-hover:via-purple-600/5 group-hover:to-pink-600/5 transition-all duration-500 z-10"></div>
+  
+
+  <div class="relative aspect-video bg-gradient-to-br from-gray-50 to-gray-100 overflow-hidden">
+    {logoUrl ? (
+      <div class="relative w-full h-full">     
+      <img
+          class="relative z-10 w-full h-full object-contain p-8 group-hover:scale-110 transition-transform duration-700"
+          src={logoUrl}
+          alt={altText}
+          width={300}
+          height={188}
+          loading="lazy"
+          decoding="async"
+        />
+           
+      
+      </div>
+    ) : (
+      <!-- Placeholder quando não há imagem -->
+      <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+        <div class="text-center">
+          <div class="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-gray-300 to-gray-400 rounded-full flex items-center justify-center">
+            <svg class="w-8 h-8 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+            </svg>
+          </div>
+          <p class="text-sm text-gray-500 font-medium">Projeto</p>
+        </div>
+      </div>
+    )}
+  </div>
+
+  
+  <div class="relative z-20 p-6">
+    <!-- Title -->
+    <div class="mb-4">
+      <h2 class="text-xl font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors duration-300">
+        {projeto?.title?.rendered || "Projeto"}
+      </h2>    
+    
+    </div>
+ 
+    <div class="flex items-center justify-between">
+      <a 
+        href={`/projetos/${projeto.slug}/`} 
+        class="group/btn inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 hover:from-blue-700 hover:to-purple-700"
+      >
+        Ver Detalhes
+        <Icon name="arrow-right" />    
+      </a>
+      
+    
+      <div class="flex space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+        {projeto?.acf?.site_do_cliente?.url && (
+          <a 
+            href={projeto.acf.site_do_cliente.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="p-2 bg-gray-100 hover:bg-gray-200 rounded-full transition-colors duration-200"
+            title="Visitar site"
+          >            
+            <Icon 
+            name="site-link"
+             size={32} /> 
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+
+ 
+ 
+</article>
+
+
+<style>
+  h2{
+    font-size: 2rem;
+  }
+
+@media screen and (max-width: 992px) {
+h2{
+  font-size: 1.5rem; 
+}
+
+}
+</style>

@@ -1,0 +1,89 @@
+---
+import HeaderLink from "./HeaderLink.astro";
+import { Icon } from "astro-icon/components";
+import { SITE_TITLE } from "../consts";
+---
+
+<header>
+  <div class="container">
+    <nav>
+      <span class="logo">
+        <Icon name="rocket" size={32} />
+        <a href="/">{SITE_TITLE}</a>
+      </span>
+      <div class="internal-links">
+        <HeaderLink href="/">Home</HeaderLink>
+        <HeaderLink href="/projetos/">Projetos</HeaderLink>
+      </div>
+      <div class="social-links">
+        <a href="https://www.linkedin.com/in/marcelo-anselmo/" target="_blank">
+          <span class="sr-only">Siga-me no Linkedin</span>
+          <Icon name="linkedin" size={32} />
+        </a>
+
+        <a href="https://github.com/PilatusBRX" target="_blank">
+          <span class="sr-only">Acesse os meus repositórios no Github</span>
+          <Icon name="github" size={32} />
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+<style>
+  header {
+    margin: 0;
+    padding: 0 1em;
+    background: white;
+    box-shadow: 0 2px 8px rgba(var(--black), 5%);
+    position: fixed;
+    width: 100%;
+    z-index: 999;
+  }
+
+  header > .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+  }
+  .logo {
+    margin: 0;
+    font-size: 1em;
+    font-weight: bold;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 0.5rem;
+  }
+
+  h2 a,
+  h2 a.active {
+    text-decoration: none;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  nav a {
+    padding: 1em 0.5em;
+    color: var(--black);
+    border-bottom: 4px solid transparent;
+    text-decoration: none;
+  }
+  nav a:hover,
+  nav a.active {
+    text-decoration: none;
+    border-bottom-color: var(--accent);
+  }
+  .social-links,
+  .social-links a {
+    display: flex;
+  }
+  @media (max-width: 720px) {
+    .social-links {
+      display: none;
+    }
+  }
+</style>

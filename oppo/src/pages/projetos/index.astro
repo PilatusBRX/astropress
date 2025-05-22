@@ -1,0 +1,129 @@
+---
+import PostCard from "@/components/PostCard.astro";
+import BlogPost from "@/layouts/BlogPost.astro";
+import type { ProjetoProps } from "@/types/projeto";
+
+const API_URL = import.meta.env.PUBLIC_API_URL;
+const response = await fetch(API_URL);
+const projetos = (await response.json()) as ProjetoProps[];
+---
+
+<BlogPost
+  title="Todos os meus projetos"
+  description="Conheça todos os meus projetos realizados"
+>
+  <section class="w-full max-w-[1200px] mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">
+      Todos os meus projetos
+    </h1>
+
+    <!-- Lista de projetos -->
+    <div
+      id="projetos-container"
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+    >
+      {
+        projetos.map((projeto, index) => (
+          <div class="projeto-item" data-index={index}>
+            <PostCard projeto={projeto} />
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Controles de Paginação -->
+    <div
+      id="pagination-controls"
+      class="mt-12 flex flex-wrap justify-center gap-2 text-lg"
+    >
+    </div>
+  </section>
+</BlogPost>
+
+<!-- Script de paginação -->
+<script is:inline>
+  const ITEMS_PER_PAGE = 6;
+  const projetos = Array.from(document.querySelectorAll(".projeto-item"));
+  const paginacao = document.getElementById("pagination-controls");
+
+  let paginaAtual = 1;
+  const totalPaginas = Math.ceil(projetos.length / ITEMS_PER_PAGE);
+
+  function renderPagina(pagina) {
+    paginaAtual = pagina;
+    window.location.hash = `#page-${paginaAtual}`;
+
+    projetos.forEach((item, i) => {
+      item.style.display =
+        i >= (pagina - 1) * ITEMS_PER_PAGE && i < pagina * ITEMS_PER_PAGE
+          ? "block"
+          : "none";
+    });
+
+    renderControles();
+  }
+
+  function renderControles() {
+    paginacao.innerHTML = "";
+
+    // Botão Anterior
+    const btnAnterior = document.createElement("button");
+    btnAnterior.textContent = "Anterior";
+    btnAnterior.disabled = paginaAtual === 1;
+    btnAnterior.className =
+      "px-8 py-4 rounded-full border text-sm transition " +
+      (btnAnterior.disabled
+        ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+        : "bg-white text-[#31dc1a] border-[#31dc1a] hover:bg-[#31dc1a] hover:text-white");
+    btnAnterior.addEventListener("click", () => renderPagina(paginaAtual - 1));
+    paginacao.appendChild(btnAnterior);
+
+    // Botões de página
+    for (let i = 1; i <= totalPaginas; i++) {
+      const btn = document.createElement("button");
+      btn.textContent = i;
+      btn.className =
+        "px-6 py-3 rounded-full border text-sm transition " +
+        (i === paginaAtual
+          ? "bg-[#31dc1a] text-white border-[#31dc1a]"
+          : "bg-white text-[#31dc1a] border-[#31dc1a] hover:bg-[#31dc1a] hover:text-white");
+      btn.addEventListener("click", () => renderPagina(i));
+      paginacao.appendChild(btn);
+    }
+
+    // Botão Próximo
+    const btnProximo = document.createElement("button");
+    btnProximo.textContent = "Próximo";
+    btnProximo.disabled = paginaAtual === totalPaginas;
+    btnProximo.className =
+      "px-8 py-4 rounded-full border text-sm transition " +
+      (btnProximo.disabled
+        ? "bg-gray-200 text-gray-500 cursor-not-allowed"
+        : "bg-white text-[#31dc1a] border-[#31dc1a] hover:bg-[#31dc1a] hover:text-white");
+    btnProximo.addEventListener("click", () => renderPagina(paginaAtual + 1));
+    paginacao.appendChild(btnProximo);
+  }
+
+  // Carrega página correta baseada na hash (ex: #page-2)
+  function inicializar() {
+    const hash = window.location.hash;
+    const match = hash.match(/#page-(\d+)/);
+    const paginaInicial = match ? parseInt(match[1]) : 1;
+    renderPagina(paginaInicial);
+  }
+
+  // Inicializar na página correta
+  window.addEventListener("DOMContentLoaded", inicializar);
+</script>
+
+
+<style>
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+  }
+  #pagination-controls{
+    top: 2rem;
+    position: relative;
+  }
+</style>
