@@ -36,7 +36,7 @@ const { projeto } = Astro.props;
 
 // Obter URL da logo
 const logoUrl =
-  projeto?.acf?.logo_do_cliente?.sizes?.large ||
+  projeto?.acf?.logo_do_cliente?.sizes?.medium ||
   projeto?.acf?.logo_do_cliente?.url ||
   null;
 
@@ -171,12 +171,12 @@ const altText =
   }
 
   .featured-image {
-    width: 100%;
+    width: 60%;
     height: 400px;
     margin: auto;
   }
   .featured-image img {
-    width: 100%;
+    width: 80%;
     height: 300px;
     margin: auto;
   }
