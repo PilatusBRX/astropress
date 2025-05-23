@@ -36,7 +36,7 @@ const { projeto } = Astro.props;
 
 // Obter URL da logo
 const logoUrl =
-  projeto?.acf?.logo_do_cliente?.sizes?.medium ||
+  projeto?.acf?.logo_do_cliente?.sizes?.large ||
   projeto?.acf?.logo_do_cliente?.url ||
   null;
 
@@ -79,8 +79,8 @@ const altText =
               <img
                 src={logoUrl}
                 alt={altText}
-                width={720}
-                height={400}
+                width={500}
+                height={300}
                 loading="lazy"
                 decoding="async"
                 class="rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
@@ -138,6 +138,7 @@ const altText =
               href={projeto.acf.site_do_cliente.url}
               target={projeto.acf.site_do_cliente.target || "_blank"}
               class="inline-flex items-center text-xl font-bold text-purple-600 hover:text-purple-700 transition-colors duration-200 group"
+              rel="noopener noreferrer"
             >
               {projeto.acf.site_do_cliente.title ||
                 projeto.acf.site_do_cliente.url}
@@ -171,21 +172,25 @@ const altText =
 
   .featured-image {
     width: 100%;
-    height: 450px;
+    height: 400px;
+    margin: auto;
   }
   .featured-image img {
     width: 100%;
-    height: 400px;
+    height: 300px;
+    margin: auto;
   }
 
   @media screen and (max-width: 720px) {
     .featured-image {
       width: 100%;
       height: 320px;
+      margin-bottom: 2.15rem;
     }
     .featured-image img {
       width: 100%;
       height: 280px;
+      object-fit: cover;
     }
   }
 </style>
